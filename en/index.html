@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>WPM Test – Typing Speed Test with Science & Fun Facts</title>
+  <meta name="description" content="Free WPM test and typing speed test with short sentences, longer paragraphs, and interesting learning texts (science & fun facts). Improve typing speed and knowledge at the same time.">
+
+  <link rel="canonical" href="https://totalpro7.github.io/TypingWeb/en/">
+  <link rel="alternate" hreflang="en" href="https://totalpro7.github.io/TypingWeb/en/">
+  <link rel="alternate" hreflang="de" href="https://totalpro7.github.io/TypingWeb/">
+
+  <meta name="robots" content="index, follow">
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"WPM Test – Typing Speed Test",
+    "url":"https://totalpro7.github.io/TypingWeb/en/",
+    "applicationCategory":"EducationalApplication",
+    "operatingSystem":"All",
+    "description":"Typing speed test with interesting learning texts (science, fun facts) and variable text length."
+  }
+  </script>
+
+  <style>
+    :root{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:#f4f6f8;color:#111}
+    .card{background:#fff;width:1040px;max-width:95%;padding:28px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+    .menu{display:flex;gap:14px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+    .menu a,.menu button{background:none;border:none;font-size:14px;cursor:pointer;color:#2563eb;text-decoration:none;padding:0}
+    .menu .active{font-weight:700;text-decoration:underline}
+    .menu .right{margin-left:auto;display:flex;gap:12px;align-items:center}
+    h1{margin:6px 0 8px;font-size:22px}
+    .intro{font-size:14px;color:#4b5563;line-height:1.55;margin:0 0 14px}
+
+    .grid{display:grid;grid-template-columns: 1fr 320px;gap:16px}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+
+    .text-area{background:#f7fbff;border:1px solid #e5eff9;padding:18px;border-radius:8px;font-size:20px;line-height:1.55;min-height:210px;white-space:pre-wrap}
+    .controls{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;align-items:center}
+    select,button{padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;background:#fff;cursor:pointer}
+    button.primary{border-color:#93c5fd;background:#eff6ff}
+    textarea{width:100%;margin-top:12px;min-height:90px;font-size:18px;padding:12px;border-radius:8px;border:1px solid #d1d5db;box-sizing:border-box}
+    .stats{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+    .stat{background:#fbfdff;border:1px solid #eef2f7;padding:10px 14px;border-radius:8px}
+    .correct{color:green}
+    .incorrect{color:red;text-decoration:underline}
+    .current{background:rgba(0,120,255,.08);border-bottom:2px solid rgba(0,120,255,.25)}
+    .note{margin-top:14px;font-size:13px;color:#6b7280;line-height:1.5}
+
+    .panel{border:1px solid #eef2f7;border-radius:12px;background:#fcfcfd;padding:14px}
+    .panel h2{margin:0 0 10px;font-size:16px}
+    .kpi{display:flex;gap:10px;flex-wrap:wrap}
+    .kpi .box{flex:1;min-width:120px;background:#fff;border:1px solid #eef2f7;border-radius:10px;padding:10px}
+    .kpi .label{font-size:12px;color:#6b7280}
+    .kpi .value{font-size:18px;font-weight:700;margin-top:4px}
+    .runs{margin-top:12px}
+    .runs ol{margin:6px 0 0 18px;padding:0}
+    .runs li{font-size:13px;color:#374151;line-height:1.4;margin:6px 0}
+    .muted{font-size:12px;color:#6b7280}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .row button{font-size:13px}
+  </style>
+</head>
+
+<body>
+<div class="card">
+
+  <div class="menu">
+    <button class="active">Typing Test</button>
+    <a href="about.html">About</a>
+    <div class="right">
+      <span class="muted">Language:</span>
+      <a href="../">Deutsch</a>
+    </div>
+  </div>
+
+  <h1>WPM Test – Typing Speed Test with a Learning Twist</h1>
+  <p class="intro">
+    This free <strong>WPM test</strong> combines <strong>typing practice</strong> with
+    <strong>science, fun facts, and general knowledge</strong>.
+    Pick a topic and text length for a “double learning” effect.
+  </p>
+
+  <div class="grid">
+    <div>
+      <div class="text-area" id="text" aria-live="polite"></div>
+
+      <div class="controls">
+        <label class="muted" for="categorySelect">Topic</label>
+        <select id="categorySelect" aria-label="Category">
+          <option value="mixed">Mixed</option>
+          <option value="science">Science</option>
+          <option value="space">Space & Tech</option>
+          <option value="nature">Nature & Animals</option>
+          <option value="history">History & Culture</option>
+          <option value="mind">Brain & Learning</option>
+        </select>
+
+        <label class="muted" for="lengthSelect">Length</label>
+        <select id="lengthSelect" aria-label="Text length">
+          <option value="short">Short sentence</option>
+          <option value="medium">Multiple sentences</option>
+          <option value="long">Long paragraph</option>
+        </select>
+
+        <button id="newText" class="primary" type="button">Random text</button>
+        <button id="restart" type="button">Restart</button>
+
+        <div style="margin-left:auto">Time: <strong id="time">0:00</strong></div>
+      </div>
+
+      <div class="stats" aria-label="Live stats">
+        <div class="stat">WPM: <strong id="wpm">0</strong></div>
+        <div class="stat">CPM: <strong id="cpm">0</strong></div>
+        <div class="stat">Accuracy: <strong id="acc">100%</strong></div>
+      </div>
+
+      <textarea id="input" placeholder="Type here — the timer starts with your first character" aria-label="Typing input"></textarea>
+
+      <p class="note">
+        WPM is calculated as <strong>(correct characters ÷ 5) ÷ minutes</strong> (standard: 1 word = 5 chars).
+        Long texts train endurance and focus; short texts train quick reactions.
+      </p>
+    </div>
+
+    <aside class="panel" aria-label="Your progress">
+      <h2>Your progress</h2>
+
+      <div class="kpi">
+        <div class="box">
+          <div class="label">Best WPM</div>
+          <div class="value" id="bestWpm">—</div>
+        </div>
+        <div class="box">
+          <div class="label">Best Accuracy</div>
+          <div class="value" id="bestAcc">—</div>
+        </div>
+      </div>
+
+      <div class="runs">
+        <div class="label" style="margin-top:12px">Recent results</div>
+        <ol id="runsList"></ol>
+        <div class="muted" id="runsEmpty" style="margin-top:8px">No saved runs yet. Finish a text and your result will appear here.</div>
+      </div>
+
+      <div class="row">
+        <button id="resetStats" type="button">Clear stats</button>
+      </div>
+
+      <p class="muted" style="margin-top:12px">
+        Note: Stats are stored locally in your browser (LocalStorage).
+      </p>
+    </aside>
+  </div>
+</div>
+
+<script>
+const TEXTS = {
+  science: {
+    short: [
+      "Water expands when it freezes.",
+      "DNA stores information in cells.",
+      "Lightning can be hotter than the Sun’s surface."
+    ],
+    medium: [
+      "Lightning can heat the air so fast that it expands explosively. That shockwave is what we hear as thunder.",
+      "DNA holds instructions for building proteins, and proteins do countless jobs in the body — from structure to signaling."
+    ],
+    long: [
+      "Science often feels like magic, but it’s mostly careful testing. Lightning is a great example: it heats the surrounding air extremely quickly, and the sudden expansion creates a shockwave we hear as thunder.\n\nIn biology, DNA stores information, but proteins do the work. Some proteins build structures, others transport molecules, and some act like tiny machines. Typing longer texts helps you build steady rhythm and accuracy — and you learn something real along the way.",
+      "Many breakthroughs come from good questions. Why does ice float? Because when water freezes, it forms a crystal structure that is less dense than liquid water. That small fact has huge consequences: lakes freeze from the top down, allowing life to survive below.\n\nLong typing practice builds endurance. Your best speed often comes from accuracy first, then gradually increasing pace."
+    ]
+  },
+  space: {
+    short: [
+      "The ISS orbits Earth in about 90 minutes.",
+      "Sound can’t travel through vacuum.",
+      "A day on Venus is longer than its year."
+    ],
+    medium: [
+      "The International Space Station moves so fast that it circles Earth about every ninety minutes, giving astronauts many sunrises per day.",
+      "Sound needs a medium like air or water. In space, there’s no air, so sound can’t travel the same way."
+    ],
+    long: [
+      "Spaceflight mixes physics, engineering, and patience. The ISS races around Earth at several kilometers per second, completing an orbit in roughly ninety minutes.\n\nIn vacuum, sound cannot propagate because there is no medium. Movies often add big sound effects, but real space would be silent. Long typing texts help you keep a steady pace — the same kind of stability engineers love.",
+      "Planets can be surprising: Venus rotates extremely slowly. One Venus day is longer than a Venus year. Numbers like that show how diverse our solar system is.\n\nTyping long paragraphs trains focus and consistent rhythm. That’s often what turns “okay” typing into truly fast typing."
+    ]
+  },
+  nature: {
+    short: [
+      "Octopuses have three hearts.",
+      "Bees communicate by dancing.",
+      "Whales can produce very low sounds."
+    ],
+    medium: [
+      "Octopuses have three hearts, and their blood uses a copper-based protein for oxygen transport, which can appear bluish.",
+      "Bees use a “waggle dance” to share the direction and distance of food sources with other bees."
+    ],
+    long: [
+      "Nature is full of solutions that feel invented. Octopuses have three hearts and a different oxygen-carrying system than humans. These adaptations help them thrive.\n\nBees show social intelligence by encoding direction and distance in their waggle dance. Interesting content tends to keep you engaged — that’s why learning texts can make typing practice feel less boring.",
+      "Many animals use signals we barely notice. Some whale sounds travel far underwater because water carries vibrations differently than air.\n\nFor long text practice, accuracy matters more than raw speed. If you stay clean, speed often rises naturally."
+    ]
+  },
+  history: {
+    short: [
+      "Paper was invented in China.",
+      "The first Olympic Games were in Greece.",
+      "Printing changed how knowledge spreads."
+    ],
+    medium: [
+      "Printing made books cheaper and easier to copy, which helped ideas spread faster and made education more accessible.",
+      "A lot of history is about information: how we store it, copy it, and share it — from paper to digital systems."
+    ],
+    long: [
+      "History is often the history of communication. Paper and printing allowed ideas to travel faster and reach more people. That changed education, science, and culture.\n\nA typing test isn’t just a game: it trains a skill you use for schoolwork, programming, and writing. When the text is meaningful, you’re more likely to stay focused.",
+      "Some inventions didn’t just look cool — they reshaped daily life. Printing reduced costs, increased reach, and made knowledge copyable.\n\nTyping practice is a modern literacy skill: you learn to stay focused, keep accuracy high, and write faster without losing control."
+    ]
+  },
+  mind: {
+    short: [
+      "Sleep helps the brain learn.",
+      "Attention is limited.",
+      "Repetition strengthens memory."
+    ],
+    medium: [
+      "During sleep, the brain often consolidates memories and strengthens connections used during the day.",
+      "Repetition improves performance. For motor skills like typing, practice makes movements more efficient over time."
+    ],
+    long: [
+      "Your brain learns during practice and also during rest. Sleep helps consolidate memories and strengthen connections. Short, regular typing sessions with breaks can be more effective than one long marathon.\n\nA good plan: accuracy first, speed second. If you push maximum speed too early, you build errors. If you stay clean, speed often increases automatically.\n\nLong texts are realistic — they feel like real writing. That builds endurance, which is often the difference between “okay” and “really fast.”",
+      "Attention behaves like a muscle: it can be trained, but it also gets tired. Small goals help, such as “type this paragraph accurately” instead of “be the fastest today.”\n\nMeaning also helps learning. If the text is interesting, you stick with it. That’s why this WPM test combines typing practice with science and fun facts."
+    ]
+  }
+};
+
+function getPool(category, length){
+  if(category === "mixed"){
+    const cats = Object.keys(TEXTS);
+    let pool = [];
+    for(const c of cats) pool = pool.concat(TEXTS[c][length]);
+    return pool;
+  }
+  return TEXTS[category][length];
+}
+
+const textEl = document.getElementById("text");
+const input = document.getElementById("input");
+const timeEl = document.getElementById("time");
+const wpmEl = document.getElementById("wpm");
+const cpmEl = document.getElementById("cpm");
+const accEl = document.getElementById("acc");
+const categorySelect = document.getElementById("categorySelect");
+const lengthSelect = document.getElementById("lengthSelect");
+
+let chars = [];
+let startTime = null;
+let timer = null;
+let finished = false;
+
+function renderText(text){
+  textEl.innerHTML = "";
+  chars = [];
+  for(const ch of text){
+    const s = document.createElement("span");
+    s.textContent = ch;
+    textEl.appendChild(s);
+    chars.push(s);
+  }
+  if(chars[0]) chars[0].classList.add("current");
+}
+
+function resetRun(){
+  input.value = "";
+  startTime = null;
+  finished = false;
+  clearInterval(timer);
+  timeEl.textContent = "0:00";
+  wpmEl.textContent = "0";
+  cpmEl.textContent = "0";
+  accEl.textContent = "100%";
+  chars.forEach(s => s.classList.remove("correct","incorrect","current"));
+  if(chars[0]) chars[0].classList.add("current");
+}
+
+function loadRandomText(){
+  const pool = getPool(categorySelect.value, lengthSelect.value);
+  const picked = pool[Math.floor(Math.random() * pool.length)];
+  renderText(picked);
+  resetRun();
+}
+
+function startTimer(){
+  if(startTime) return;
+  startTime = Date.now();
+  timer = setInterval(updateStats, 250);
+}
+
+function updateStats(){
+  if(!startTime) return;
+
+  const elapsedMs = Date.now() - startTime;
+  const minutes = Math.max(elapsedMs / 60000, 1/60);
+
+  const typed = input.value;
+  let correct = 0;
+  for(let i=0; i<typed.length; i++){
+    if(!chars[i]) break;
+    if(typed[i] === chars[i].textContent) correct++;
+  }
+
+  const wpm = Math.round((correct / 5) / minutes);
+  const cpm = Math.round(correct / minutes);
+  const acc = typed.length === 0 ? 100 : Math.max(0, Math.round((correct / typed.length) * 100));
+
+  wpmEl.textContent = isFinite(wpm) ? wpm : 0;
+  cpmEl.textContent = isFinite(cpm) ? cpm : 0;
+  accEl.textContent = acc + "%";
+
+  const seconds = Math.floor(elapsedMs / 1000);
+  timeEl.textContent = Math.floor(seconds/60) + ":" + String(seconds%60).padStart(2,"0");
+}
+
+function refreshMarking(){
+  const typed = input.value;
+  for(let i=0; i<chars.length; i++){
+    const span = chars[i];
+    span.classList.remove("correct","incorrect","current");
+    const t = typed[i];
+    if(t === undefined) continue;
+    if(t === span.textContent) span.classList.add("correct");
+    else span.classList.add("incorrect");
+  }
+  const curIndex = Math.min(typed.length, chars.length - 1);
+  if(chars[curIndex]) chars[curIndex].classList.add("current");
+}
+
+/* LocalStorage stats */
+const LS_KEY = "typingweb_stats_v1_en";
+const bestWpmEl = document.getElementById("bestWpm");
+const bestAccEl = document.getElementById("bestAcc");
+const runsListEl = document.getElementById("runsList");
+const runsEmptyEl = document.getElementById("runsEmpty");
+
+function loadStats(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? JSON.parse(raw) : { bestWpm: null, bestAcc: null, runs: [] };
+  }catch{
+    return { bestWpm: null, bestAcc: null, runs: [] };
+  }
+}
+function saveStats(stats){ localStorage.setItem(LS_KEY, JSON.stringify(stats)); }
+
+function formatRun(run){
+  const d = new Date(run.ts);
+  const date = d.toLocaleDateString("en-GB", {year:"numeric", month:"2-digit", day:"2-digit"});
+  const time = d.toLocaleTimeString("en-GB", {hour:"2-digit", minute:"2-digit"});
+  const lengthName = run.length === "short" ? "Short" : run.length === "medium" ? "Medium" : "Long";
+  const catName = run.category === "mixed" ? "Mixed" :
+                  run.category === "science" ? "Science" :
+                  run.category === "space" ? "Space" :
+                  run.category === "nature" ? "Nature" :
+                  run.category === "history" ? "History" : "Mind";
+  return `${run.wpm} WPM · ${run.acc}% · ${lengthName} · ${catName} · ${date} ${time}`;
+}
+
+function renderStats(){
+  const stats = loadStats();
+  bestWpmEl.textContent = stats.bestWpm == null ? "—" : stats.bestWpm;
+  bestAccEl.textContent = stats.bestAcc == null ? "—" : (stats.bestAcc + "%");
+
+  runsListEl.innerHTML = "";
+  if(!stats.runs || stats.runs.length === 0){
+    runsEmptyEl.style.display = "block";
+    return;
+  }
+  runsEmptyEl.style.display = "none";
+
+  const recent = stats.runs.slice(0, 6);
+  for(const r of recent){
+    const li = document.createElement("li");
+    li.textContent = formatRun(r);
+    runsListEl.appendChild(li);
+  }
+}
+
+function recordFinish(){
+  const wpm = parseInt(wpmEl.textContent, 10) || 0;
+  const acc = parseInt(String(accEl.textContent).replace("%",""), 10) || 0;
+
+  const stats = loadStats();
+  stats.bestWpm = (stats.bestWpm == null) ? wpm : Math.max(stats.bestWpm, wpm);
+  stats.bestAcc = (stats.bestAcc == null) ? acc : Math.max(stats.bestAcc, acc);
+
+  const run = { ts: Date.now(), wpm, acc, length: lengthSelect.value, category: categorySelect.value };
+  stats.runs = [run].concat(stats.runs || []).slice(0, 30);
+
+  saveStats(stats);
+  renderStats();
+}
+
+/* Events */
+input.addEventListener("input", () => {
+  if(!startTime) startTimer();
+  refreshMarking();
+  updateStats();
+
+  if(!finished && input.value.length >= chars.length){
+    finished = true;
+    clearInterval(timer);
+    recordFinish();
+  }
+});
+
+document.getElementById("newText").addEventListener("click", loadRandomText);
+document.getElementById("restart").addEventListener("click", resetRun);
+categorySelect.addEventListener("change", loadRandomText);
+lengthSelect.addEventListener("change", loadRandomText);
+
+document.getElementById("resetStats").addEventListener("click", () => {
+  localStorage.removeItem(LS_KEY);
+  renderStats();
+});
+
+renderStats();
+loadRandomText();
+</script>
+</body>
+</html>
