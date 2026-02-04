@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://totalpro7.github.io/TypingWeb/sitemap.xml
